@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/model/todo.dart';
+import 'package:to_do_app/model/task.dart';
 
-class ToDoItem extends StatelessWidget {
-  final ToDo todo;
-  final onToDoChanged;
-  final onDeleteItem;
+class TaskItem extends StatelessWidget {
+  final Task task;
+  final Function(Task) onTaskChanged;
+  final Function(String) onDeleteItem;
 
-  const ToDoItem(
-      {super.key, required this.todo, this.onToDoChanged, this.onDeleteItem});
+  const TaskItem({
+    super.key,
+    required this.task,
+    required this.onTaskChanged,
+    required this.onDeleteItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,35 +19,37 @@ class ToDoItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: ListTile(
         onTap: () {
-          onToDoChanged(todo);
+          onTaskChanged(task);
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        tileColor: Colors.white,
+        tileColor: task.isDone
+            ? const Color.fromARGB(255, 225, 225, 225)
+            : Colors.white,
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        leading: todo.isDone
+        leading: task.isDone
             ? const Icon(Icons.check_box, color: Colors.cyan)
             : const Icon(Icons.check_box_outline_blank, color: Colors.cyan),
         title: Text(
-          todo.todoText!,
+          task.taskText!,
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
-            decoration: todo.isDone ? TextDecoration.lineThrough : null,
+            decoration: task.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
         trailing: Container(
           padding: const EdgeInsets.all(0),
-          // margin: EdgeInsets.symmetric(vertical: 12),
-          height: 35,
-          width: 35,
+          height: 50,
+          width: 50,
           decoration: BoxDecoration(
-              color: Colors.red, borderRadius: BorderRadius.circular(5)),
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(5)),
           child: IconButton(
-            color: Colors.white,
-            iconSize: 18,
+            color: const Color.fromARGB(255, 255, 0, 0),
+            iconSize: 25,
             icon: const Icon(Icons.delete),
             onPressed: () {
-              onDeleteItem(todo.id);
+              onDeleteItem(task.id!);
             },
           ),
         ),
