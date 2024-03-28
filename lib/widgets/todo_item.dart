@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_app/model/todo.dart';
 
 class ToDoItem extends StatelessWidget {
-  const ToDoItem({super.key});
+  final ToDo todo;
+  final onToDoChanged;
+  final onDeleteItem;
+
+  const ToDoItem(
+      {super.key, required this.todo, this.onToDoChanged, this.onDeleteItem});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       child: ListTile(
         onTap: () {
-          // print("Clicked on Todo");
+          onToDoChanged(todo);
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         tileColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        leading: Icon(Icons.check_box, color: Colors.cyan),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        leading: todo.isDone
+            ? const Icon(Icons.check_box, color: Colors.cyan)
+            : const Icon(Icons.check_box_outline_blank, color: Colors.cyan),
         title: Text(
-          "Check Mail",
+          todo.todoText!,
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
-            decoration: TextDecoration.lineThrough,
+            decoration: todo.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
         trailing: Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           // margin: EdgeInsets.symmetric(vertical: 12),
           height: 35,
           width: 35,
@@ -33,9 +41,9 @@ class ToDoItem extends StatelessWidget {
           child: IconButton(
             color: Colors.white,
             iconSize: 18,
-            icon: Icon(Icons.delete), 
+            icon: const Icon(Icons.delete),
             onPressed: () {
-              // print("Clicked on delete icon");
+              onDeleteItem(todo.id);
             },
           ),
         ),

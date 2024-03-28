@@ -1,4 +1,3 @@
-import 'dart:html';
 
 class ToDo {
   String? id;
@@ -7,7 +6,7 @@ class ToDo {
 
   ToDo({required this.id, required this.todoText, this.isDone = false});
 
-  List<ToDo> todoList() {
+  static List<ToDo> todoList() {
     return [
       ToDo(id: "01", todoText: "Check Mail", isDone: true),
       ToDo(id: "02", todoText: "Play games", isDone: true),
@@ -15,5 +14,13 @@ class ToDo {
       ToDo(id: "04", todoText: "Run fast", isDone: false),
       ToDo(id: "05", todoText: "Be handsome", isDone: false),
     ];
+  }
+
+  setTrue(){
+    isDone = true;
+  }
+
+  setFalse(){
+    isDone = false;
   }
 }
